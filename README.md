@@ -91,15 +91,30 @@ $content = file_get_contents($url, NULL, stream_context_create($options));
 print_r(json_decode($content));
 ```
 
-### Leitura da chamada
+## Obter dados do usuário
+
+### Requisição
 
 `POST /user/read`
 
-Para isso é utilizada a chamada user/read com o cpf referente ao usuário.
-
 ### Resposta
 
-
+{  
+   "fullName": "Fulano da Silva",
+   "phone": "(00)90000-0000",
+   "mail": "test@test.com",
+   "cpf": "000.000.000-00",
+   "cep": "99999-999",
+   "address": "Rua das Aves",
+   "number": "4178",
+   "complement": "",
+   "state": "SC",
+   "city": "Joinville",
+   "district": "",
+   "status": "OK",
+   "error_code": 0,
+   "error_desc": null
+}
 
 ### Exemplo chamada PHP
 ```
