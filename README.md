@@ -13,11 +13,11 @@ A URL base da API é https://contify.com/api/
 
 Afim de garantir a integridade dos dados o processo de integração, deve seguir executar as operações da API na seguinte ordem no momento da emissão do carne leão.
 
-1 - Usuários
-2 - Dependentes
-3 - Contatos
-4 - Lançamentos
-5 - Processamento
+1. Usuários
+2. Dependentes
+3. Contatos
+4. Lançamentos
+5. Processamento
 
 # Integração
 
@@ -26,6 +26,33 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 ### Requisição
 
 `POST /user/insert`
+
+### Corpo
+
+```
+{  
+   "t_name": "Fulano",
+   "u_fullName": "Fulano da Silva",
+   "u_phone": "(00)90000-0000",
+   "u_mail": "test@test.com",
+   "u_cpf": "000.000.000-00",
+   "u_cep": "99999-999",
+   "u_address": "Rua das Aves",
+   "u_number": "5130",
+   "u_state": "SC",
+   "u_city": "Joinville"
+}
+```
+
+### Resposta
+
+```
+{
+   "status": "OK",
+   "error_code" :0,
+   "error_desc": null
+}
+```
 
 ### Exemplo chamada em PHP
 
@@ -36,31 +63,27 @@ header('Content-Type: application/json');
 $postdata = http_build_query(
     array(
 	    array(
-			't_name'            => 'Mário',
-			't_clinicalName'    => null,
-			't_hasEmployee'     => true,
-			't_quantityEmployee'=> 5,
-			'u_fullName' 	      => 'DINOSOURA DA SILVA SAURO',
-			'u_phone'  	        => '11 98585-7744',
-			'u_mail'      	    => 'roger.sauro@gmail.com',
-			'u_cpf'             => '081.055.870-09',
-			'u_cep'       	    => '03040-555',
-			'u_address'         => 'Rua Frederico Machado',
-			'u_number'    	    => '158',
-			'u_complement'	    => 'Fundos',
-			'u_state'     	    => 'SP',
-			'u_city'      	    => 'São Paulo',
-			'u_district'  	    => 'Centro',
-			'u_mailCode'  	    => '',),
-		array('token'         => ''),				
+			't_name'     => 'Fulano',
+			'u_fullName' => 'Fulano da Silva',
+			'u_phone'    => '(00)90000-0000',
+			'u_mail'     => 'test@test.com',
+			'u_cpf'      => '000.000.000-00',
+			'u_cep'      => '99999-999',
+			'u_address'  => 'Rua das Aves',
+			'u_number'   => '4178',
+			'u_state'    => 'SC',
+			'u_city'     => 'Joinville',
+	    ),
+	    array('token' => ''),				
     )
 );
+
 $options = array(
-			'http' => array(
-			'method'=>"POST",
-			'content' => $postdata,
-			'header'  => 'Content-type: application/x-www-form-urlencoded',
-	),
+		'http'    => array(
+		'method'  => "POST",
+		'content' => $postdata,
+		'header'  => 'Content-type: application/x-www-form-urlencoded',
+	   ),
 );
 
 $url = 'https://contify.com.br/api/user/insert';
@@ -74,7 +97,8 @@ print_r(json_decode($content));
 
 Para isso é utilizada a chamada user/read com o cpf referente ao usuário.
 
-### Retorno
+### Resposta
+
 
 
 ### Exemplo chamada PHP
