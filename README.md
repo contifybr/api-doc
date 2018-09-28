@@ -1,5 +1,20 @@
 # Introdução
 
+- [Introdução](#introdução)
+- [Autenticacão](#autenticação)
+- [Usando a API com JSON](#usando-a-api-com-json)
+- [Considerações Iniciais](#considerações-iniciais)
+
+# API
+
+- [Criar usuário](#criar-usuário)
+- [Obter dados do usuário](#obter-dados-do-usuário)
+- [Criar dependentes](#criar-dependentes)
+- [Criar lançamentos](#criar-lançamentos)
+- [Processamento do Darf](#processamento-do-darf)
+
+# Introdução
+
 A API de integração Contify é um serviço que permite a invocação de procedimentos remotos que inserem dados no sistema Contify afim de gerar o Darf (Carne Leão).
 
 # Autenticação
@@ -9,19 +24,21 @@ Todas as chamadas devem ser executadas via método POST conforme exemplos em cad
 
 A URL base da API é https://contify.com/api/
 
+# Usando a API com JSON
+
+A API suporta apenas JSON, não suportamos outro formato.
+
 # Considerações Iniciais
 
 Afim de garantir a integridade dos dados o processo de integração, deve seguir executar as operações da API na seguinte ordem no momento da emissão do carne leão.
 
-1. Usuários
+1. Usuário
 2. Dependentes
-3. Contatos
-4. Lançamentos
-5. Processamento
+3. Lançamentos
+4. Processamento
 
-# Integração
 
-## Usuários
+## Criar usuário
 
 ### Requisição
 
@@ -31,16 +48,21 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 
 ```
 {  
-   "t_name": "Fulano",
-   "u_fullName": "Fulano da Silva",
-   "u_phone": "(00)90000-0000",
-   "u_mail": "test@test.com",
-   "u_cpf": "000.000.000-00",
-   "u_cep": "99999-999",
-   "u_address": "Rua das Aves",
-   "u_number": "5130",
-   "u_state": "SC",
-   "u_city": "Joinville"
+   "data":{  
+      "t_name": "Fulano",
+      "u_fullName": "Fulano da Silva",
+      "u_phone": "(00)90000-0000",
+      "u_mail": "test@test.com",
+      "u_cpf": "000.000.000-00",
+      "u_cep": "99999-999",
+      "u_address": "Rua das Aves",
+      "u_number": "5130",
+      "u_state": "SC",
+      "u_city": "Joinville"
+   },
+   "token":{  
+      "value": ""
+   }
 }
 ```
 
@@ -59,36 +81,37 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 ```
 <?php
 header('Content-Type: application/json');
-
-$postdata = http_build_query(
-    array(
-	    array(
-			't_name'     => 'Fulano',
-			'u_fullName' => 'Fulano da Silva',
-			'u_phone'    => '(00)90000-0000',
-			'u_mail'     => 'test@test.com',
-			'u_cpf'      => '000.000.000-00',
-			'u_cep'      => '99999-999',
-			'u_address'  => 'Rua das Aves',
-			'u_number'   => '4178',
-			'u_state'    => 'SC',
-			'u_city'     => 'Joinville',
-	    ),
-	    array('token' => ''),				
-    )
-);
-
-$options = array(
-		'http'    => array(
-		'method'  => "POST",
-		'content' => $postdata,
-		'header'  => 'Content-type: application/x-www-form-urlencoded',
-	   ),
-);
+$data_string = '{  
+		   "data":{  
+		      "t_name": "Fulano",
+		      "u_fullName": "Fulano da Silva",
+		      "u_phone": "(00)90000-0000",
+		      "u_mail": "test@test.com",
+		      "u_cpf": "000.000.000-00",
+		      "u_cep": "99999-999",
+		      "u_address": "Rua das Aves",
+		      "u_number": "5130",
+		      "u_state": "SC",
+		      "u_city": "Joinville"
+		   },
+		   "token":{  
+		      "value": ""
+		   }
+		}';
 
 $url = 'https://contify.com.br/api/user/insert';
-$content = file_get_contents($url, NULL, stream_context_create($options));
-print_r(json_decode($content));
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+   'Content-Type: application/json',
+   'Content-Length: ' . strlen($data_string)
+));
+
+$content = curl_exec($ch);
+echo($content);
 ```
 
 ## Obter dados do usuário
@@ -97,8 +120,22 @@ print_r(json_decode($content));
 
 `POST /user/read`
 
+### Corpo
+
+```
+{  
+   "data": {  
+      "cpf": "359.177.770-63"
+   },
+   "token": {  
+      "value": ""
+   }
+}
+```
+
 ### Resposta
 
+```
 {  
    "fullName": "Fulano da Silva",
    "phone": "(00)90000-0000",
@@ -115,40 +152,247 @@ print_r(json_decode($content));
    "error_code": 0,
    "error_desc": null
 }
+```
 
 ### Exemplo chamada PHP
+
 ```
 <?php
-//cabeçalho HTTP
 header('Content-Type: application/json');
 
-//array com os parametros 
-$postdata = http_build_query(
-				array(
-				array(
-					'cpf' => '081.055.870-09',
-					'rg'  => '33450384',
-				),
-				array('token'       => 'YjgxZTE1YzY2OWZkZmIxZmQ3N2M2YTY5YWQzZjVkOTU2MzAwYjEzZDQyM2Y2ZTA2MDg1NDJkNWE5NzdlZTY0NjUxZTJkNDNjZmI0MDhlMmZlMTk5MGQ2ZTAyOTc3NGEwZGFjODgyOWJjZGNjNDcyMGU2NDMwMTA3NGNiNjgyMTE=')				
-				)
-			);
-$options = array(
-			'http' => array(
-			'method'=>"POST",
-			'content' => $postdata,
-			'header'  => 'Content-type: application/x-www-form-urlencoded',
-	),
-);
+$data_string = '{
+                    "data": {
+                        "cpf": "000.000.000-00"
+                    },
+                    "token": {
+                        "value": ""
+                    }
+                }';
 
-//url da chamada 
-$url = 'https://contify.com.br/api/user/read.php';
+$url = 'https://contify.com.br/api/user/read';
 
-//conteúdo 
-$content = file_get_contents($url, NULL, stream_context_create($options));
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string)
+));
 
-print_r(json_decode($content)); //imprimi o retorno no formato JSON
+$content = curl_exec($ch);
+echo ($content);
 ```
 
+## Criar dependentes
 
+### Requisição
 
+`POST /dependent/insert`
+
+### Corpo
+
+```
+{  
+   "cpf_titular": {  
+      "value": "999.999.999-99"
+   },
+   "token": {  
+      "value": ""
+   },
+   "data": [  
+      {  
+         "name": "Dependente 1",
+         "cpf": "111.111.111-11",
+         "birth": "2010-01-15"
+      },
+      {  
+         "name": "Dependente 2",
+         "cpf": "222.222.222-22",
+         "birth": "2011-07-26"
+      },
+      {  
+         "name": "Dependente 3",
+         "cpf": "333.333.333-33",
+         "birth": "1981-04-20"
+      }
+   ]
+}
+
+```
+### Resposta
+
+```
+{
+   "status": "OK",
+   "error_code": 0,
+   "error_desc": null
+}
+```
+
+### Exemplo chamada PHP
+
+```
+<?php
+header('Content-Type: application/json');
+
+$data_string = '{  
+		   "cpf_titular": {  
+		      "value": "999.999.999-99"
+		   },
+		   "token": {  
+		      "value": ""
+		   },
+		   "data": [  
+		      {  
+			 "name": "Dependente 1",
+			 "cpf": "111.111.111-11",
+			 "birth": "2010-01-15"
+		      },
+		      {  
+			 "name": "Dependente 2",
+			 "cpf": "222.222.222-22",
+			 "birth": "2011-07-26"
+		      },
+		      {  
+			 "name": "Dependente 3",
+			 "cpf": "333.333.333-33",
+			 "birth": "1981-04-20"
+		      }
+		   ]
+		}';
+
+$url = 'https://contify.com.br/api/dependent/insert';
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string)
+));
+
+$content = curl_exec($ch);
+echo ($content);
+```
+
+## Criar lançamentos
+
+### Requisição
+
+`POST /launch/insert`
+
+### Corpo
+
+```
+{  
+   "cpf_titular":{  
+      "value":"000.000.000-00"
+   },
+   "token": {  
+      "value":""
+   },
+   "data":[  
+      {  
+         "date": "2018-09-05",
+         "type": "R",
+         "value": "90.00",
+         "description": "999.999.999-99",
+         "deductibleExpenseCode": null
+      },
+      {  
+         "date": "2018-09-10",
+         "type": "D",
+         "value": "790.00",
+         "description": "99.999.999/9999-99",
+         "deductibleExpenseCode": "1014"
+      }
+   ]
+}
+```
+
+### Resposta
+
+```
+{
+   "status": "OK",
+   "error_code": 0,
+   "error_desc": null
+}
+```
+
+### Exemplo chamada PHP
+
+```
+<?php
+header('Content-Type: application/json');
+
+$data_string = '{  
+		   "cpf_titular":{  
+		      "value": "000.000.000-00"
+		   },
+		   "token": {  
+		      "value":""
+		   },
+		   "data":[  
+		      {  
+			 "date": "2018-09-05",
+			 "type": "R",
+			 "value": "90.00",
+			 "description": "999.999.999-99",
+			 "deductibleExpenseCode": null
+		      },
+		      {  
+			 "date": "2018-09-10",
+			 "type": "D",
+			 "value": "790.00",
+			 "description": "99.999.999/9999-99",
+			 "deductibleExpenseCode": "1014"
+		      }
+		   ]
+		}';
+
+$url = 'https://contify.com.br/api/launch/insert';
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string)
+));
+
+$content = curl_exec($ch);
+echo ($content);
+```
+
+## Processamento do Darf
+
+### Requisição
+
+`POST /process/process`
+
+### Corpo
+
+```
+
+```
+
+### Resposta
+
+```
+{
+   "status": "OK",
+   "error_code": 0,
+   "error_desc": null
+}
+```
+
+### Exemplo chamada PHP
+
+```
+
+```
 
