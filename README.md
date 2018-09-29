@@ -12,6 +12,7 @@
 - [Criar dependentes](#criar-dependentes)
 - [Criar lançamentos](#criar-lançamentos)
 - [Processamento do Darf](#processamento-do-darf)
+- [Obter dados do Darf](#obter-dados-do-darf)
 
 # Introdução
 
@@ -377,22 +378,167 @@ echo ($content);
 ### Corpo
 
 ```
-
+{  
+   "data": {  
+      "cpf": "999.999.999-99"
+   },
+   "token": {  
+      "value": ""
+   },
+   "date": [  
+      {  
+         "year": "2018"
+      },
+      {  
+         "month": "09"
+      }
+   ]
+}
 ```
 
 ### Resposta
 
 ```
-{
+{  
+   "cpf": "359.177.770-63",
+   "accountingPeriod": "2018-09-30",
+   "maturity": "2018-10-31",
+   "revenue": "12370.00",
+   "deductibleExpenses": "100.00",
+   "nonDeductibleRevenues": "229.54",
+   "dependentDeduction": "568.77",
+   "calculationBase": "11701.23",
+   "mainValue": "2348.48",
+   "year": "2018",
+   "month": "09",
    "status": "OK",
    "error_code": 0,
-   "error_desc": null
+   "error_desc": null,
+   "cpf_titular": "359.177.770-63"
 }
 ```
 
 ### Exemplo chamada PHP
 
 ```
+<?php
+header('Content-Type: application/json');
 
+$data_string = '{  
+		   "data": {  
+		      "cpf": "999.999.999-99"
+		   },
+		   "token": {  
+		      "value": ""
+		   },
+		   "date": [  
+		      {  
+			 "year": "2018"
+		      },
+		      {  
+			 "month": "09"
+		      }
+		   ]
+		}';
+
+$url = 'https://contify.com.br/api/process/process';
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string)
+));
+
+$content = curl_exec($ch);
+echo ($content); 
 ```
 
+## Obter dados do Darf
+
+### Requisição
+
+`POST /process/read`
+
+### Corpo
+
+```
+{  
+   "data": {  
+      "cpf": "999.999.999-99"
+   },
+   "token": {  
+      "value": ""
+   },
+   "date": [  
+      {  
+         "year": "2018"
+      },
+      {  
+         "month": "09"
+      }
+   ]
+}
+```
+
+### Resposta
+
+```
+{  
+   "cpf": "359.177.770-63",
+   "accountingPeriod": "2018-09-30",
+   "maturity": "2018-10-31",
+   "revenue": "12370.00",
+   "deductibleExpenses": "100.00",
+   "nonDeductibleRevenues": "229.54",
+   "dependentDeduction": "568.77",
+   "calculationBase": "11701.23",
+   "mainValue": "2348.48",
+   "year": "2018",
+   "month": "09",
+   "status": "OK",
+   "error_code": 0,
+   "error_desc": null,
+   "cpf_titular": "359.177.770-63"
+}
+```
+
+### Exemplo chamada PHP
+
+```
+<?php
+header('Content-Type: application/json');
+
+$data_string = '{  
+		   "data": {  
+		      "cpf": "999.999.999-99"
+		   },
+		   "token": {  
+		      "value": ""
+		   },
+		   "date": [  
+		      {  
+			 "year": "2018"
+		      },
+		      {  
+			 "month": "09"
+		      }
+		   ]
+		}';
+
+$url = 'https://contify.com.br/api/process/read';
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string)
+));
+
+$content = curl_exec($ch);
+echo ($content); 
+```
