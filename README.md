@@ -10,6 +10,7 @@
 - [Criar usuário](#criar-usuário)
 - [Obter dados do usuário](#obter-dados-do-usuário)
 - [Criar dependentes](#criar-dependentes)
+- [Criar contatos](#criar-contatos)
 - [Criar lançamentos](#criar-lançamentos)
 - [Processamento do Darf](#processamento-do-darf)
 - [Obter dados do Darf](#obter-dados-do-darf)
@@ -23,7 +24,7 @@ A API de integração Contify é um serviço que permite a invocação de proced
 A API utiliza para validação dos parceiros o esquema de TOKEN que é fornecido ao parceiro após a firmação do contrato. 
 Todas as chamadas devem ser executadas via método POST conforme exemplos em cada API.
 
-A URL base da API é https://contify.com/api/
+A URL base da API é https://contify.com.br/api/
 
 # Usando a API com JSON
 
@@ -35,8 +36,9 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 
 1. Usuário
 2. Dependentes
-3. Lançamentos
-4. Processamento
+3. Contatos
+4. Lançamentos
+5. Processamento
 
 
 ## Criar usuário
@@ -274,6 +276,91 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Length: ' . strlen($data_string)
 ));
 
+$content = curl_exec($ch);
+echo ($content);
+```
+
+## Criar contatos
+
+### Requisição
+
+`POST /contact/insert`
+
+### Corpo
+
+```
+{  
+   "cpf_titular":{  
+      "value": "000.000.000-00"
+   },
+   "token":{  
+      "value": ""
+   },
+   "data":[  
+      {  
+         "fantasyName": "Fulano da Silva",
+         "cpfCnpj": "999.999.999-99"
+      },
+      {  
+         "fantasyName": "Distribuidora D",
+         "cpfCnpj": "99.999.999/9999-99"
+      }
+   ]
+}
+```
+
+### Resposta
+
+```
+{
+   "status": "OK",
+   "error_code": 0,
+   "error_desc": null
+}
+```
+
+### Exemplo chamada PHP
+
+```
+	
+
+<?php
+
+// cabeçalho HTTP
+
+header('Content-Type: application/json');
+
+// $data_string        = file_get_contents("contact_data.json");
+
+$data_string = '{  
+		   "cpf_titular":{  
+		      "value": "000.000.000-00"
+		   },
+		   "token":{  
+		      "value": ""
+		   },
+		   "data":[  
+		      {  
+			 "fantasyName": "Fulano da Silva",
+			 "cpfCnpj": "999.999.999-99"
+		      },
+		      {  
+			 "fantasyName": "Distribuidora D",
+			 "cpfCnpj": "99.999.999/9999-99"
+		      }
+		   ]
+		}';
+
+$url = 'http://contify.com.br/api/contact/insert';
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+	'Content-Type: application/json',
+	'Content-Length: ' . strlen($data_string)
+));
 $content = curl_exec($ch);
 echo ($content);
 ```
