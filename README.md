@@ -424,6 +424,17 @@ echo ($content);
 
 `POST /launch/insert`
 
+### Parâmetros do corpo
+
+| Campo                 |  Tipo  | Obrigatório | Descrição                               |
+|-----------------------|:------:|:-----------:|-----------------------------------------|
+| cpfCnpj               | string |      S      | CPF ou CNPJ (Obrigatório para Receitas) |
+| date                  | string |      S      | Data do lançamento                      |
+| type                  | string |      S      | R = Receita D = Despesa                 |
+| value                 | string |      S      | Valor                                   |
+| description           | string |      N      | Se for despesa, informar o CPF ou CNPJ  |
+| deductibleExpenseCode | string |      N      | Código da despesa se for dedutível      |
+
 ### Corpo
 
 ```
@@ -436,14 +447,15 @@ echo ($content);
    },
    "data":[  
       {  
-         "date": "2018-09-05",
+         "cpfCnpj_contact":"000.000.000-00",
+	 "date": "2018-09-05",
          "type": "R",
          "value": "90.00",
          "description": "999.999.999-99",
          "deductibleExpenseCode": null
       },
       {  
-         "date": "2018-09-10",
+	 "date": "2018-09-10",
          "type": "D",
          "value": "790.00",
          "description": "99.999.999/9999-99",
@@ -478,6 +490,7 @@ $data_string = '{
 		   },
 		   "data":[  
 		      {  
+			 "cpfCnpj_contact":"032.639.739-67",
 			 "date": "2018-09-05",
 			 "type": "R",
 			 "value": "90.00",
@@ -514,6 +527,14 @@ echo ($content);
 ### Requisição
 
 `POST /process/process`
+
+### Parâmetros do Corpo
+
+| Campo                 |  Tipo  | Obrigatório | Descrição                              |
+|-----------------------|:------:|:-----------:|----------------------------------------|
+| cpf                   | string |      S      | CPF do usuário                         |
+| year                  | string |      S      | Ano de processamento                   |
+| month                 | string |      S      | Mês de processamento                   |
 
 ### Corpo
 
