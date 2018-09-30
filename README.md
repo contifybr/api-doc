@@ -47,6 +47,26 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 
 `POST /user/insert`
 
+### Parâmetros do corpo
+
+| Campo              |   Tipo  | Obrigatório | Descrição                 |
+|--------------------|:-------:|:-----------:|---------------------------|
+| t_name             |  string |      S      | Nome abreviado            |
+| t_clinicalName     |  string |      N      | Nome da clínica           |
+| t_hasEmployee      | boolean |      N      | Tem funcionário(s)        |
+| t_quantityEmployee | integer |      N      | Quantidade funcionário(s) |
+| u_fullName         |  string |      S      | Nome completo             |
+| u_phone            |  string |      S      | Telefone                  |
+| u_mail             |  string |      S      | E-mail                    |
+| u_cpf              |  string |      S      | CPF                       |
+| u_cep              |  string |      S      | Cep                       |
+| u_address          |  string |      S      | Endereço                  |
+| u_number           |  string |      S      | Número endereço           |
+| u_complement       |  string |      N      | Complemento               |
+| u_state            |  string |      S      | Estado                    |
+| u_city             |  string |      S      | Cidade                    |
+| u_district         |  string |      N      | Bairro                    |
+
 ### Corpo
 
 ```
@@ -123,6 +143,12 @@ echo($content);
 
 `POST /user/read`
 
+### Parâmetros do corpo
+
+| Campo | Tipo   | Obrigatório | Descrição      |
+|-------|:------:|:-----------:|----------------|
+| cpf   | string |      S      | CPF do usuário |
+
 ### Corpo
 
 ```
@@ -192,6 +218,14 @@ echo ($content);
 ### Requisição
 
 `POST /dependent/insert`
+
+### Parâmetros do corpo
+
+| Campo |  Tipo  | Obrigatório | Descrição          |
+|-------|:------:|:-----------:|--------------------|
+| name  | string |      S      | Nome do dependente |
+| cpf   | string |      S      | CPF do dependente  |
+| birth | string |      S      | Data nascimento    |
 
 ### Corpo
 
@@ -285,6 +319,25 @@ echo ($content);
 ### Requisição
 
 `POST /contact/insert`
+
+### Parâmetros do corpo
+
+| Campo             |  Tipo  | Obrigatório | Descrição          |
+|-------------------|:------:|:-----------:|--------------------|
+| socialName        | string |      S      | Razão social       |
+| fantasyName       | string |      S      | Nome fantasia      |
+| cpfCnpj           | string |      S      | CPF ou CNPJ        |
+| stateRegistration | string |      N      | Inscrição estadual |
+| birth             | string |      N      | Data nascimento    |
+| cep               | string |      N      | Cep                |
+| address           | string |      N      | Endereço           |
+| number            | string |      N      | Número             |
+| complement        | string |      N      | Complemento        |
+| state             | string |      N      | Estado             |
+| city              | string |      N      | Cidade             |
+| district          | string |      N      | Bairro             |
+| phone             | string |      N      | Fone               |
+| note              | string |      N      | Observação         |
 
 ### Corpo
 
