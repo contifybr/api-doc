@@ -7,7 +7,7 @@
 
 # API
 
-- [Criar usuário](#criar-usuário)
+- [Criar usuários](#criar-usuário)
 - [Obter dados do usuário](#obter-dados-do-usuário)
 - [Criar dependentes](#criar-dependentes)
 - [Criar contatos](#criar-contatos)
@@ -34,14 +34,14 @@ A API suporta apenas JSON, não suportamos outro formato.
 
 Afim de garantir a integridade dos dados o processo de integração, deve seguir executar as operações da API na seguinte ordem no momento da emissão do carne leão.
 
-1. Usuário
+1. Usuários
 2. Dependentes
 3. Contatos
 4. Lançamentos
 5. Processamento
 
 
-## Criar usuário
+## Criar usuários
 
 ### Requisição
 
@@ -379,11 +379,7 @@ echo ($content);
 
 <?php
 
-// cabeçalho HTTP
-
 header('Content-Type: application/json');
-
-// $data_string        = file_get_contents("contact_data.json");
 
 $data_string = '{  
 		   "cpf_titular":{  
