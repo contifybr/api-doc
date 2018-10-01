@@ -2,7 +2,7 @@
 
 - [Introdução](#introdução)
 - [Autenticacão](#autenticação)
-- [Usando a API com JSON](#usando-a-api-com-json)
+- [Resposta em JSON](#resposta-em-json)
 - [Considerações Iniciais](#considerações-iniciais)
 
 # API
@@ -26,8 +26,9 @@ Todas as chamadas devem ser executadas via método POST conforme exemplos em cad
 
 A URL base da API é https://contify.com.br/api/
 
-# Usando a API com JSON
+# Resposta em JSON
 
+Todas as nossas chamadas de API respondem no formato JSON
 A API suporta apenas JSON, não suportamos outro formato.
 
 # Considerações Iniciais
@@ -324,7 +325,7 @@ echo ($content);
 
 | Campo             |  Tipo  | Obrigatório | Descrição          |
 |-------------------|:------:|:-----------:|--------------------|
-| socialName        | string |      S      | Razão social       |
+| socialName        | string |      N      | Razão social       |
 | fantasyName       | string |      S      | Nome fantasia      |
 | cpfCnpj           | string |      S      | CPF ou CNPJ        |
 | stateRegistration | string |      N      | Inscrição estadual |
@@ -570,10 +571,28 @@ echo ($content);
    "month": "09",
    "status": "OK",
    "error_code": 0,
-   "error_desc": null,
-   "cpf_titular": "359.177.770-63"
+   "error_desc": null
 }
 ```
+
+### Parâmetros da Resposta
+
+| Campo                 |  Tipo  | Descrição                     |
+|-----------------------|:------:|-------------------------------|
+| cpf                   | string | CPF do usuário                |
+| accountingPeriod      | string | Período de apuração           |
+| maturity              | string | Vencimento do darf            |
+| revenue               | string | Valor de receitas             |
+| deductibleExpenses    | string | Valor despesas dedutíveis     |
+| nonDeductibleRevenues | string | Valor despesas não dedutíveis |
+| dependentDeduction    | string | Valor dedução dependentes     |
+| calculationBase       | string | Valor base de cálculo         |
+| mainValue             | string | Valor do principal               |
+| year                  | string | Ano                           |
+| month                 | string | Mês                           |
+| status                | string | Status do processamento       |
+| error_code            | string | Código do erro                |
+| error_desc            | string | Descrição do erro             |
 
 ### Exemplo chamada PHP
 
