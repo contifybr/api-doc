@@ -126,7 +126,7 @@ $data_string = '{
 		   }
 		}';
 
-$url = 'https://contify.com.br/api/user/insert';
+$url = 'https://contify.com.br/api/v1/user/insert';
 
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -303,7 +303,7 @@ $data_string = '{
 		   ]
 		}';
 
-$url = 'https://contify.com.br/api/dependent/insert';
+$url = 'https://contify.com.br/api/v1/dependent/insert';
 
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -404,7 +404,7 @@ $data_string = '{
 		   ]
 		}';
 
-$url = 'http://contify.com.br/api/contact/insert';
+$url = 'https://contify.com.br/api/v1/contact/insert';
 
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -507,7 +507,7 @@ $data_string = '{
 		   ]
 		}';
 
-$url = 'https://contify.com.br/api/launch/insert';
+$url = 'https://contify.com.br/api/v1/launch/insert';
 
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -620,7 +620,7 @@ $data_string = '{
 		   ]
 		}';
 
-$url = 'https://contify.com.br/api/process/process';
+$url = 'https://contify.com.br/api/v1/process/process';
 
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -707,7 +707,7 @@ $data_string = '{
 		   ]
 		}';
 
-$url = 'https://contify.com.br/api/process/read';
+$url = 'https://contify.com.br/api/v1/process/read';
 
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
