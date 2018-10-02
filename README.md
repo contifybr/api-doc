@@ -19,17 +19,20 @@
 
 A API de integração Contify é um serviço que permite a invocação de procedimentos remotos que inserem dados no sistema Contify afim de gerar o Darf (Carne Leão).
 
+O endereço base de comunicação é contify.com.br/api, acompanhado sempre do protocolo seguro https:// como prefixo. As versões da API são agrupadas por diretório, sufixadas ao endereço base (https://contify.com.br/api/v1).
+
+Este documento trata da versão da API 1.0.
+
+O endereço para se comunicar através desta versão é: https://contify.com.br/api/v1
+
 # Autenticação
 
 A API utiliza para validação dos parceiros o esquema de TOKEN que é fornecido ao parceiro após a firmação do contrato. 
 Todas as chamadas devem ser executadas via método POST conforme exemplos em cada API.
 
-A URL base da API é https://contify.com.br/api/
-
 # Resposta em JSON
 
-Todas as nossas chamadas de API respondem no formato JSON
-A API suporta apenas JSON, não suportamos outro formato.
+Todas as nossas chamadas de API respondem no formato JSON. Não suportamos outro formato.
 
 # Considerações Iniciais
 
