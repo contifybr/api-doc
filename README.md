@@ -7,7 +7,7 @@
 
 # API
 
-- [Criar usuários](#criar-usuário)
+- [Criar usuários](#criar-usuários)
 - [Obter dados do usuário](#obter-dados-do-usuário)
 - [Criar dependentes](#criar-dependentes)
 - [Criar contatos](#criar-contatos)
