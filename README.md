@@ -14,6 +14,7 @@
 - [Criar lançamentos](#criar-lançamentos)
 - [Processamento do Darf](#processamento-do-darf)
 - [Obter dados do Darf](#obter-dados-do-darf)
+- [Obter Livro Caixa](#obter-livro-caixa)
 
 # Introdução
 
@@ -720,4 +721,116 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 
 $content = curl_exec($ch);
 echo ($content); 
+```
+
+## Obter Livro Caixa
+
+### Requisição
+
+`POST /cash-book/read`
+
+### Corpo
+
+```
+{  
+   "data": {  
+      "cpf": "999.999.999-99"
+   },
+   "token": {  
+      "value": ""
+   },
+   "date": [  
+      {  
+         "year": "2018"
+      },
+      {  
+         "initial_month": "09"
+      },
+      {  
+         "final_month": "09"
+      }
+   ]
+}
+```
+
+### Resposta
+
+```
+{  
+   "cpf_titular": "999.999.999-99",
+   "year": "2018",
+   "initial_month": "09",
+   "final_month": "09",
+   "file": "JVBERi0xLjcKJeLjz9MKNyAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZ...",
+   "status": "OK",
+   "error_code": 0,
+   "error_desc": null
+}
+```
+
+### Parâmetros da Resposta
+
+| Campo                 |  Tipo  | Descrição                     |
+|-----------------------|:------:|-------------------------------|
+| cpf_titular           | string | CPF do usuário                |
+| year                  | string | Ano base                      |
+| inicial_month         | string | Mês inicial do período        |
+| final_month           | string | Mês final do período          |
+| file                  | string | Arquivo codificado em Base64  |
+| status                | string | Status do processamento       |
+| error_code            | string | Código do erro                |
+| error_desc            | string | Descrição do erro             |
+
+### Exemplo chamada PHP
+
+```
+<?php
+header('Content-Type: application/json');
+
+$data_string = '{  
+		   "data": {  
+		      "cpf": "999.999.999-99"
+		   },
+		   "token": {  
+		      "value": ""
+		   },
+		   "date": [  
+		      {  
+			 "year": "2018"
+		      },
+		      {  
+			 "initial_month": "09"
+		      },
+		      {  
+			 "final_month": "09"
+		      }
+		   ]
+		}';
+
+$url = 'https://contify.com.br/api/v1/cash-book/read';
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string)
+));
+
+$content = curl_exec($ch);
+echo ($content); 
+```
+
+### Exemplo resposta PHP
+
+```
+<?php
+// Retorno do arquivo Base64
+$doc = "JVBERi0xLjcKJeLjz9MKNyAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZ...";
+
+// Salva o arquivo no local especificado
+$fp = fopen('livro_caixa.pdf', 'w');
+fwrite($fp, base64_decode($doc));
+fclose($fp);
 ```
