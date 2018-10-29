@@ -14,7 +14,7 @@
 - [Criar lançamentos](#criar-lançamentos)
 - [Processamento do Darf](#processamento-do-darf)
 - [Obter dados do Darf](#obter-dados-do-darf)
-- [Obter Livro Caixa](#obter-livro-caixa)
+- [Obter livro caixa](#obter-livro-caixa)
 
 # Introdução
 
@@ -723,7 +723,7 @@ $content = curl_exec($ch);
 echo ($content); 
 ```
 
-## Obter Livro Caixa
+## Obter livro caixa
 
 ### Requisição
 
