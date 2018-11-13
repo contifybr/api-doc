@@ -7,14 +7,15 @@
 
 # API
 
-- [Criar usuários](#criar-usuários)
+- [Criar usuário](#criar-usuário)
+- [Alterar usuário](#alterar-usuário)
 - [Obter dados do usuário](#obter-dados-do-usuário)
 - [Criar dependentes](#criar-dependentes)
 - [Criar contatos](#criar-contatos)
 - [Criar lançamentos](#criar-lançamentos)
 - [Processamento do Darf](#processamento-do-darf)
 - [Obter dados do Darf](#obter-dados-do-darf)
-- [Obter livro caixa](#obter-livro-caixa)
+- [Obter Livro Caixa](#obter-livro-caixa)
 
 # Introdução
 
@@ -46,7 +47,7 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 5. Processamento
 
 
-## Criar usuários
+## Criar usuário
 
 ### Requisição
 
@@ -71,6 +72,7 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 | u_state            |  string |      S      | Estado                    |
 | u_city             |  string |      S      | Cidade                    |
 | u_district         |  string |      N      | Bairro                    |
+| expiration_date    |  string |      N      | Data de expiração         |
 
 ### Corpo
 
@@ -86,7 +88,8 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
       "u_address": "Rua das Aves",
       "u_number": "5130",
       "u_state": "SC",
-      "u_city": "Joinville"
+      "u_city": "Joinville",
+      "expiration_date": "2018-02-28"
    },
    "token":{  
       "value": ""
@@ -141,6 +144,52 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 $content = curl_exec($ch);
 echo($content);
 ```
+
+## Alterar usuário
+
+### Requisição
+
+`PUT /user/change`
+
+### Parâmetros do corpo
+
+| Campo 	    | Tipo     | Descrição         |
+|-------------------|:--------:|:------------------|
+| expiration_date   | string   | Data de expiração |
+
+### Corpo
+
+```
+{  
+   "cpf_titular": {  
+      "value": "999.999.999-99"
+   },
+   "token": {  
+      "value": ""
+   },
+   "expiration_date": {
+      "value": ""
+   }   
+}
+```
+
+### Resposta
+
+```
+{
+   "status": "OK",
+   "error_code": 0,
+   "error_desc": null
+}
+```
+
+### Status da Resposta
+
+| status 	    | error_code | error_desc         |
+|-------------------|:----------:|:-------------------|
+| OK                | 0          | null               |
+| ERROR             | 18         | Error Invalid date |
+
 
 ## Obter dados do usuário
 
@@ -272,6 +321,14 @@ echo ($content);
 }
 ```
 
+### Status da Resposta
+
+| status 	    | error_code | error_desc         |
+|-------------------|:----------:|:-------------------|
+| OK                | 0          | null               |
+| ERROR             | 405        | Prazo expirado     |
+
+
 ### Exemplo chamada PHP
 
 ```
@@ -377,11 +434,16 @@ echo ($content);
 }
 ```
 
+### Status da Resposta
+
+| status 	    | error_code | error_desc         |
+|-------------------|:----------:|:-------------------|
+| OK                | 0          | null               |
+| ERROR             | 405        | Prazo expirado     |
+
 ### Exemplo chamada PHP
 
 ```
-	
-
 <?php
 
 header('Content-Type: application/json');
@@ -475,6 +537,13 @@ echo ($content);
    "error_desc": null
 }
 ```
+
+### Status da Resposta
+
+| status 	    | error_code | error_desc         |
+|-------------------|:----------:|:-------------------|
+| OK                | 0          | null               |
+| ERROR             | 405        | Prazo expirado     |
 
 ### Exemplo chamada PHP
 
@@ -591,12 +660,19 @@ echo ($content);
 | nonDeductibleRevenues | string | Valor despesas não dedutíveis |
 | dependentDeduction    | string | Valor dedução dependentes     |
 | calculationBase       | string | Valor base de cálculo         |
-| mainValue             | string | Valor do principal               |
+| mainValue             | string | Valor do principal            |
 | year                  | string | Ano                           |
 | month                 | string | Mês                           |
 | status                | string | Status do processamento       |
 | error_code            | string | Código do erro                |
 | error_desc            | string | Descrição do erro             |
+
+### Status da Resposta
+
+| status 	    | error_code | error_desc         |
+|-------------------|:----------:|:-------------------|
+| OK                | 0          | null               |
+| ERROR             | 405        | Prazo expirado     |
 
 ### Exemplo chamada PHP
 
@@ -685,6 +761,13 @@ echo ($content);
 }
 ```
 
+### Status da Resposta
+
+| status 	    | error_code | error_desc         |
+|-------------------|:----------:|:-------------------|
+| OK                | 0          | null               |
+| ERROR             | 405        | Prazo expirado     |
+
 ### Exemplo chamada PHP
 
 ```
@@ -723,7 +806,7 @@ $content = curl_exec($ch);
 echo ($content); 
 ```
 
-## Obter livro caixa
+## Obter Livro Caixa
 
 ### Requisição
 
@@ -781,6 +864,13 @@ echo ($content);
 | error_code            | string | Código do erro                |
 | error_desc            | string | Descrição do erro             |
 
+### Status da Resposta
+
+| status 	    | error_code | error_desc         |
+|-------------------|:----------:|:-------------------|
+| OK                | 0          | null               |
+| ERROR             | 405        | Prazo expirado     |
+
 ### Exemplo chamada PHP
 
 ```
@@ -830,8 +920,7 @@ echo ($content);
 $doc = "JVBERi0xLjcKJeLjz9MKNyAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZ...";
 
 // Salva o arquivo no local especificado
-$fp = fopen('/home/files/cash_book.pdf', 'w');
+$fp = fopen('livro_caixa.pdf', 'w');
 fwrite($fp, base64_decode($doc));
-
 fclose($fp);
 ```
