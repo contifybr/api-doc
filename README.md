@@ -107,6 +107,13 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 }
 ```
 
+### Status da Resposta
+
+| status 	    | error_code | error_desc                                    |
+|-------------------|:----------:|:----------------------------------------------|
+| OK                | 0          | null                                          |
+| ERROR             | 4          | Error Fields Not Found [field name not found] |
+
 ### Exemplo chamada em PHP
 
 ```
@@ -237,6 +244,13 @@ echo($content);
 }
 ```
 
+### Status da Resposta
+
+| status 	    | error_code | error_desc     |
+|-------------------|:----------:|:---------------|
+| OK                | 0          | null           |
+| ERROR             | 1          | User not found |
+
 ### Exemplo chamada PHP
 
 ```
@@ -327,7 +341,7 @@ echo ($content);
 |-------------------|:----------:|:-------------------|
 | OK                | 0          | null               |
 | ERROR             | 405        | Prazo expirado     |
-
+| ERROR             | 4          | Field Not Found    |
 
 ### Exemplo chamada PHP
 
@@ -436,10 +450,11 @@ echo ($content);
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc         |
-|-------------------|:----------:|:-------------------|
-| OK                | 0          | null               |
-| ERROR             | 405        | Prazo expirado     |
+| status 	    | error_code | error_desc                                     |
+|-------------------|:----------:|:-----------------------------------------------|
+| OK                | 0          | null                                           |
+| ERROR             | 405        | Prazo expirado                                 |
+| ERROR             | 4          | Error Fields Not Found: [Field name not found] |
 
 ### Exemplo chamada PHP
 
@@ -540,10 +555,12 @@ echo ($content);
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc         |
-|-------------------|:----------:|:-------------------|
-| OK                | 0          | null               |
-| ERROR             | 405        | Prazo expirado     |
+| status 	    | error_code | error_desc                                     |
+|-------------------|:----------:|:-----------------------------------------------|
+| OK                | 0          | null                                           |
+| ERROR             | 405        | Prazo expirado                                 |
+| ERROR             | 16         | Error contact not found                        |
+| ERROR             | 4          | Error Fields Not Found: [Field name not found] |
 
 ### Exemplo chamada PHP
 
@@ -669,10 +686,12 @@ echo ($content);
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc         |
-|-------------------|:----------:|:-------------------|
-| OK                | 0          | null               |
-| ERROR             | 405        | Prazo expirado     |
+| status 	    | error_code | error_desc           |
+|-------------------|:----------:|:---------------------|
+| OK                | 0          | null                 |
+| ERROR             | 405        | Prazo expirado       |
+| ERROR             | 6          | Error User Not Found |
+
 
 ### Exemplo chamada PHP
 
@@ -763,10 +782,11 @@ echo ($content);
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc         |
-|-------------------|:----------:|:-------------------|
-| OK                | 0          | null               |
-| ERROR             | 405        | Prazo expirado     |
+| status 	    | error_code | error_desc           |
+|-------------------|:----------:|:---------------------|
+| OK                | 0          | null                 |
+| ERROR             | 405        | Prazo expirado       |
+| ERROR             | 15         | Error DARF not found |
 
 ### Exemplo chamada PHP
 
@@ -866,10 +886,11 @@ echo ($content);
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc         |
-|-------------------|:----------:|:-------------------|
-| OK                | 0          | null               |
-| ERROR             | 405        | Prazo expirado     |
+| status 	    | error_code | error_desc           |
+|-------------------|:----------:|:---------------------|
+| OK                | 0          | null                 |
+| ERROR             | 405        | Prazo expirado       |
+| ERROR             | 15         | Error User not found |
 
 ### Exemplo chamada PHP
 
