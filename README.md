@@ -337,11 +337,11 @@ echo ($content);
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc         |
-|-------------------|:----------:|:-------------------|
-| OK                | 0          | null               |
-| ERROR             | 405        | Prazo expirado     |
-| ERROR             | 4          | Field Not Found    |
+| status 	    | error_code | error_desc              |
+|-------------------|:----------:|:------------------------|
+| OK                | 0          | null                    |
+| ERROR             | 405        | expiration date reached |
+| ERROR             | 4          | Field Not Found         |
 
 ### Exemplo chamada PHP
 
@@ -453,7 +453,7 @@ echo ($content);
 | status 	    | error_code | error_desc                                     |
 |-------------------|:----------:|:-----------------------------------------------|
 | OK                | 0          | null                                           |
-| ERROR             | 405        | Prazo expirado                                 |
+| ERROR             | 405        | expiration date reached                        |
 | ERROR             | 4          | Error Fields Not Found: [Field name not found] |
 
 ### Exemplo chamada PHP
@@ -558,7 +558,7 @@ echo ($content);
 | status 	    | error_code | error_desc                                     |
 |-------------------|:----------:|:-----------------------------------------------|
 | OK                | 0          | null                                           |
-| ERROR             | 405        | Prazo expirado                                 |
+| ERROR             | 405        | expiration date reached                        |
 | ERROR             | 16         | Error contact not found                        |
 | ERROR             | 4          | Error Fields Not Found: [Field name not found] |
 
@@ -782,11 +782,11 @@ echo ($content);
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc           |
-|-------------------|:----------:|:---------------------|
-| OK                | 0          | null                 |
-| ERROR             | 405        | Prazo expirado       |
-| ERROR             | 15         | Error DARF not found |
+| status 	    | error_code | error_desc              |
+|-------------------|:----------:|:------------------------|
+| OK                | 0          | null                    |
+| ERROR             | 405        | expiration date reached |
+| ERROR             | 15         | Error DARF not found    |
 
 ### Exemplo chamada PHP
 
@@ -886,11 +886,11 @@ echo ($content);
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc           |
-|-------------------|:----------:|:---------------------|
-| OK                | 0          | null                 |
-| ERROR             | 405        | Prazo expirado       |
-| ERROR             | 15         | Error User not found |
+| status 	    | error_code | error_desc              |
+|-------------------|:----------:|:------------------------|
+| OK                | 0          | null                    |
+| ERROR             | 405        | expiration date reached |
+| ERROR             | 15         | Error User not found    |
 
 ### Exemplo chamada PHP
 
