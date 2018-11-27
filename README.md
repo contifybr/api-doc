@@ -55,40 +55,40 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 
 ### Parâmetros do corpo
 
-| Campo              |   Tipo  | Obrigatório | Descrição                 |
-|--------------------|:-------:|:-----------:|---------------------------|
-| t_name             |  string |      S      | Nome abreviado            |
-| t_clinicalName     |  string |      N      | Nome da clínica           |
-| t_hasEmployee      | boolean |      N      | Tem funcionário(s)        |
-| t_quantityEmployee | integer |      N      | Quantidade funcionário(s) |
-| u_fullName         |  string |      S      | Nome completo             |
-| u_phone            |  string |      S      | Telefone                  |
-| u_mail             |  string |      S      | E-mail                    |
-| u_cpf              |  string |      S      | CPF                       |
-| u_cep              |  string |      S      | Cep                       |
-| u_address          |  string |      S      | Endereço                  |
-| u_number           |  string |      S      | Número endereço           |
-| u_complement       |  string |      N      | Complemento               |
-| u_state            |  string |      S      | Estado                    |
-| u_city             |  string |      S      | Cidade                    |
-| u_district         |  string |      N      | Bairro                    |
-| expiration_date    |  string |      N      | Data de expiração         |
+| Campo             |   Tipo  | Obrigatório | Descrição                 |
+|-------------------|:-------:|:-----------:|---------------------------|
+| name              | string  |      S      | Nome abreviado            |
+| clinical_name     | string  |      N      | Nome da clínica           |
+| has_employee      | boolean |      N      | Tem funcionário(s)        |
+| quantity_employee | integer |      N      | Quantidade funcionário(s) |
+| full_name         | string  |      S      | Nome completo             |
+| phone             | string  |      S      | Telefone                  |
+| mail              | string  |      S      | E-mail                    |
+| cpf               | string  |      S      | CPF                       |
+| cep               | string  |      S      | Cep                       |
+| address           | string  |      S      | Endereço                  |
+| number            | string  |      S      | Número endereço           |
+| complement        | string  |      N      | Complemento               |
+| state             | string  |      S      | Estado                    |
+| city              | string  |      S      | Cidade                    |
+| district          | string  |      N      | Bairro                    |
+| expiration_date   | string  |      N      | Data de expiração         |
 
 ### Corpo
 
 ```
 {  
    "data":{  
-      "t_name": "Fulano",
-      "u_fullName": "Fulano da Silva",
-      "u_phone": "(00)90000-0000",
-      "u_mail": "test@test.com",
-      "u_cpf": "000.000.000-00",
-      "u_cep": "99999-999",
-      "u_address": "Rua das Aves",
-      "u_number": "5130",
-      "u_state": "SC",
-      "u_city": "Joinville",
+      "name": "Fulano",
+      "full_name": "Fulano da Silva",
+      "phone": "(00)90000-0000",
+      "mail": "test@test.com",
+      "cpf": "000.000.000-00",
+      "cep": "99999-999",
+      "address": "Rua das Aves",
+      "number": "5130",
+      "state": "SC",
+      "city": "Joinville",
       "expiration_date": "2018-02-28"
    },
    "token":{  
@@ -101,18 +101,20 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 
 ```
 {
-   "status": "OK",
-   "error_code" :0,
-   "error_desc": null
+   "status_code": 201,
+   "error" : null,
+   "message": "created user id"
 }
 ```
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc                                    |
-|-------------------|:----------:|:----------------------------------------------|
-| OK                | 0          | null                                          |
-| ERROR             | 4          | Error Fields Not Found [field name not found] |
+| status_code | error      | message                                       |
+|:-----------:|:----------:|:----------------------------------------------|
+| 201         | null       | Created user id                               |
+| 422         | Un.Entidy  | User already registered                       |
+| 422         | Un.Entidy  | Error invalid date [expiration_date]          |
+| 422         | Un.Entidy  | Error fields not found [field_name not found] |
 
 ### Exemplo chamada em PHP
 
@@ -121,16 +123,17 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 header('Content-Type: application/json');
 $data_string = '{  
 		   "data":{  
-		      "t_name": "Fulano",
-		      "u_fullName": "Fulano da Silva",
-		      "u_phone": "(00)90000-0000",
-		      "u_mail": "test@test.com",
-		      "u_cpf": "000.000.000-00",
-		      "u_cep": "99999-999",
-		      "u_address": "Rua das Aves",
-		      "u_number": "5130",
-		      "u_state": "SC",
-		      "u_city": "Joinville"
+		      "name": "Fulano",
+		      "full_name": "Fulano da Silva",
+		      "phone": "(00)90000-0000",
+		      "mail": "test@test.com",
+		      "cpf": "000.000.000-00",
+		      "cep": "99999-999",
+		      "address": "Rua das Aves",
+		      "number": "5130",
+		      "state": "SC",
+		      "city": "Joinville",
+		      "expiration_date": "2019-01-01"
 		   },
 		   "token":{  
 		      "value": ""
@@ -156,12 +159,12 @@ echo($content);
 
 ### Requisição
 
-`PUT /user/change`
+`POST /user/change`
 
 ### Parâmetros do corpo
 
 | Campo 	    | Tipo     | Descrição         |
-|-------------------|:--------:|:------------------|
+|:-----------------:|:--------:|:------------------|
 | expiration_date   | string   | Data de expiração |
 
 ### Corpo
@@ -184,18 +187,19 @@ echo($content);
 
 ```
 {
-   "status": "OK",
-   "error_code": 0,
-   "error_desc": null
+   "status_code": 200,
+   "error": null,
+   "message": "Updated expiration date user"
 }
 ```
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc         |
-|-------------------|:----------:|:-------------------|
-| OK                | 0          | null               |
-| ERROR             | 18         | Error Invalid date |
+| status_code | error      | message                                       | 
+|:-----------:|:----------:|:---------------------------------------------:|
+| 200         | null       | Expiration date of the updated user           |         
+| 422         | Un.Entidy  | Error invalid date [expiration_date]          |
+| 422         | Un.Entidy  | Error fields not found [field_name not found] |
 
 
 ## Obter dados do usuário
@@ -206,16 +210,16 @@ echo($content);
 
 ### Parâmetros do corpo
 
-| Campo | Tipo   | Obrigatório | Descrição      |
-|-------|:------:|:-----------:|----------------|
-| cpf   | string |      S      | CPF do usuário |
+| Campo       | Tipo   | Obrigatório | Descrição      |
+|:-----------:|:------:|:-----------:|----------------|
+| cpf_titular | string |      S      | CPF do usuário |
 
 ### Corpo
 
 ```
 {  
-   "data": {  
-      "cpf": "359.177.770-63"
+   "cpf_titular": {
+	"value": "999.999.999-99"
    },
    "token": {  
       "value": ""
@@ -227,7 +231,7 @@ echo($content);
 
 ```
 {  
-   "fullName": "Fulano da Silva",
+   "full_name": "Fulano da Silva",
    "phone": "(00)90000-0000",
    "mail": "test@test.com",
    "cpf": "000.000.000-00",
@@ -238,18 +242,18 @@ echo($content);
    "state": "SC",
    "city": "Joinville",
    "district": "",
-   "status": "OK",
-   "error_code": 0,
-   "error_desc": null
+   "status_code": 200,
+   "error": null,
+   "message": null
 }
 ```
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc     |
-|-------------------|:----------:|:---------------|
-| OK                | 0          | null           |
-| ERROR             | 1          | User not found |
+| status_code | error      | message                                       |
+|:-----------:|:----------:|:----------------------------------------------|
+| 200         | null       | null                                          |
+| 422         | Un.Entidy  | Error fields not found [field_name not found] |
 
 ### Exemplo chamada PHP
 
@@ -258,8 +262,8 @@ echo($content);
 header('Content-Type: application/json');
 
 $data_string = '{
-                    "data": {
-                        "cpf": "000.000.000-00"
+                    "cpf_titular": {
+                        "value": "000.000.000-00"
                     },
                     "token": {
                         "value": ""
@@ -329,19 +333,18 @@ echo ($content);
 
 ```
 {
-   "status": "OK",
-   "error_code": 0,
-   "error_desc": null
+   "status_code": 200,
+   "error": null,
+   "message": "Dependents created / updated successfully"
 }
 ```
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc              |
-|-------------------|:----------:|:------------------------|
-| OK                | 0          | null                    |
-| ERROR             | 405        | expiration date reached |
-| ERROR             | 4          | Field Not Found         |
+| status_code | error      | message                                       |
+|:-----------:|:----------:|:----------------------------------------------|
+| 200         | null       | Dependents created / updated successfully     |
+| 422         | Un.Entidy  | Error fields not found [field_name not found] |
 
 ### Exemplo chamada PHP
 
@@ -398,22 +401,22 @@ echo ($content);
 
 ### Parâmetros do corpo
 
-| Campo             |  Tipo  | Obrigatório | Descrição          |
-|-------------------|:------:|:-----------:|--------------------|
-| socialName        | string |      N      | Razão social       |
-| fantasyName       | string |      S      | Nome fantasia      |
-| cpfCnpj           | string |      S      | CPF ou CNPJ        |
-| stateRegistration | string |      N      | Inscrição estadual |
-| birth             | string |      N      | Data nascimento    |
-| cep               | string |      N      | Cep                |
-| address           | string |      N      | Endereço           |
-| number            | string |      N      | Número             |
-| complement        | string |      N      | Complemento        |
-| state             | string |      N      | Estado             |
-| city              | string |      N      | Cidade             |
-| district          | string |      N      | Bairro             |
-| phone             | string |      N      | Fone               |
-| note              | string |      N      | Observação         |
+| Campo              |  Tipo  | Obrigatório | Descrição          |
+|--------------------|:------:|:-----------:|--------------------|
+| social_name        | string |      N      | Razão social       |
+| fantasy_name       | string |      S      | Nome fantasia      |
+| cpf_cnpj           | string |      S      | CPF ou CNPJ        |
+| state_registration | string |      N      | Inscrição estadual |
+| birth              | string |      N      | Data nascimento    |
+| cep                | string |      N      | Cep                |
+| address            | string |      N      | Endereço           |
+| number             | string |      N      | Número             |
+| complement         | string |      N      | Complemento        |
+| state              | string |      N      | Estado             |
+| city               | string |      N      | Cidade             |
+| district           | string |      N      | Bairro             |
+| phone              | string |      N      | Fone               |
+| note               | string |      N      | Observação         |
 
 ### Corpo
 
@@ -427,12 +430,12 @@ echo ($content);
    },
    "data":[  
       {  
-         "fantasyName": "Fulano da Silva",
-         "cpfCnpj": "999.999.999-99"
+         "fantasy_name": "Fulano da Silva",
+         "cpf_cnpj": "999.999.999-99"
       },
       {  
-         "fantasyName": "Distribuidora D",
-         "cpfCnpj": "99.999.999/9999-99"
+         "fantasy_name": "Distribuidora D",
+         "cpf_cnpj": "99.999.999/9999-99"
       }
    ]
 }
@@ -442,19 +445,19 @@ echo ($content);
 
 ```
 {
-   "status": "OK",
-   "error_code": 0,
-   "error_desc": null
+   "status_code": 200,
+   "error": null,
+   "message": "Contacts created / updated successfully"
 }
 ```
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc                                     |
-|-------------------|:----------:|:-----------------------------------------------|
-| OK                | 0          | null                                           |
-| ERROR             | 405        | expiration date reached                        |
-| ERROR             | 4          | Error Fields Not Found: [Field name not found] |
+| status_code | error      | message                                       |
+|:-----------:|:----------:|:----------------------------------------------|
+| 200         | null       | Contacts created / updated successfully       |
+| 422         | Un.Entidy  | Expiration date reached                       |
+| 422         | Un.Entidy  | Error fields not found [field_name not found] |
 
 ### Exemplo chamada PHP
 
@@ -472,12 +475,12 @@ $data_string = '{
 		   },
 		   "data":[  
 		      {  
-			 "fantasyName": "Fulano da Silva",
-			 "cpfCnpj": "999.999.999-99"
+			 "fantasy_name": "Fulano da Silva",
+			 "cpf_cnpj": "999.999.999-99"
 		      },
 		      {  
-			 "fantasyName": "Distribuidora D",
-			 "cpfCnpj": "99.999.999/9999-99"
+			 "fantasy_name": "Distribuidora D",
+			 "cpf_cnpj": "99.999.999/9999-99"
 		      }
 		   ]
 		}';
@@ -504,40 +507,46 @@ echo ($content);
 
 ### Parâmetros do corpo
 
-| Campo                 |  Tipo  | Obrigatório | Descrição                               |
-|-----------------------|:------:|:-----------:|-----------------------------------------|
-| cpfCnpj               | string |      S      | CPF ou CNPJ (Obrigatório para Receitas) |
-| date                  | string |      S      | Data do lançamento                      |
-| type                  | string |      S      | R = Receita D = Despesa                 |
-| value                 | string |      S      | Valor                                   |
-| description           | string |      N      | Se for despesa, informar o CPF ou CNPJ  |
-| deductibleExpenseCode | string |      N      | Código da despesa se for dedutível      |
+| Campo                   |  Tipo  | Obrigatório | Descrição                               |
+|-------------------------|:------:|:-----------:|-----------------------------------------|
+| cpf_cnpj_contact        | string |      S      | CPF ou CNPJ (Obrigatório para Receitas) |
+| date                    | string |      S      | Data do lançamento                      |
+| type                    | string |      S      | R = Receita D = Despesa                 |
+| value                   | string |      S      | Valor                                   |
+| description             | string |      N      | Se for despesa, informar o CPF ou CNPJ  |
+| deductible_expense_code | string |      N      | Código da despesa se for dedutível      |
 
 ### Corpo
 
 ```
 {  
-   "cpf_titular":{  
-      "value":"000.000.000-00"
+   "cpf_titular": {  
+      "value": "000.000.000-00"
+   },
+   "base_year": {  
+      "value": "2018"
+   },
+    "base_month": {  
+      "value": "11"
    },
    "token": {  
-      "value":""
+      "value": ""
    },
-   "data":[  
+   "data": [  
       {  
-         "cpfCnpj_contact":"000.000.000-00",
+         "cpf_cnpj_contact": "000.000.000-00",
 	 "date": "2018-09-05",
          "type": "R",
          "value": "90.00",
          "description": "999.999.999-99",
-         "deductibleExpenseCode": null
+         "deductible_expense_code": null
       },
       {  
 	 "date": "2018-09-10",
          "type": "D",
          "value": "790.00",
          "description": "99.999.999/9999-99",
-         "deductibleExpenseCode": "1014"
+         "deductible_expense_code": 1014
       }
    ]
 }
@@ -547,20 +556,19 @@ echo ($content);
 
 ```
 {
-   "status": "OK",
-   "error_code": 0,
-   "error_desc": null
+   "status_code": 200,
+   "error": null,
+   "message": "Releases created / updated successfully"
 }
 ```
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc                                     |
-|-------------------|:----------:|:-----------------------------------------------|
-| OK                | 0          | null                                           |
-| ERROR             | 405        | expiration date reached                        |
-| ERROR             | 16         | Error contact not found                        |
-| ERROR             | 4          | Error Fields Not Found: [Field name not found] |
+| status_code | error      | message                                       |
+|:-----------:|:----------:|:----------------------------------------------|
+| 200         | null       | Releases created / updated successfully       |
+| 422         | Un.Entidy  | Expiration date reached                       |
+| 422         | Un.Entidy  | Error fields not found [field_name not found] |
 
 ### Exemplo chamada PHP
 
@@ -572,24 +580,30 @@ $data_string = '{
 		   "cpf_titular":{  
 		      "value": "000.000.000-00"
 		   },
+		   "base_year": {  
+		      "value": "2018"
+		   },
+		   "base_month": {  
+		      "value": "11"
+		   },
 		   "token": {  
-		      "value":""
+		      "value": ""
 		   },
 		   "data":[  
 		      {  
-			 "cpfCnpj_contact":"032.639.739-67",
+			 "cpf_cnpj_contact": "032.639.739-67",
 			 "date": "2018-09-05",
 			 "type": "R",
 			 "value": "90.00",
 			 "description": "999.999.999-99",
-			 "deductibleExpenseCode": null
+			 "deductible_expense_code": null
 		      },
 		      {  
 			 "date": "2018-09-10",
 			 "type": "D",
 			 "value": "790.00",
 			 "description": "99.999.999/9999-99",
-			 "deductibleExpenseCode": "1014"
+			 "deductible_expense_code": "1014"
 		      }
 		   ]
 		}';
@@ -617,30 +631,28 @@ echo ($content);
 
 ### Parâmetros do Corpo
 
-| Campo                 |  Tipo  | Obrigatório | Descrição                              |
-|-----------------------|:------:|:-----------:|----------------------------------------|
-| cpf                   | string |      S      | CPF do usuário                         |
-| year                  | string |      S      | Ano de processamento                   |
-| month                 | string |      S      | Mês de processamento                   |
+| Campo       |  Tipo  | Obrigatório | Descrição            |
+|-------------|:------:|:-----------:|----------------------|
+| cpf_titular | string |      S      | CPF do usuário       |
+| year        | string |      S      | Ano de processamento |
+| month       | string |      S      | Mês de processamento |
 
 ### Corpo
 
 ```
 {  
-   "data": {  
-      "cpf": "999.999.999-99"
+   "cpf_titular": {  
+      "value": "999.999.999-99"
+   },
+   "year": {  
+      "value": "2018"
+   },
+   "month": {  
+      "value": "11"
    },
    "token": {  
       "value": ""
-   },
-   "date": [  
-      {  
-         "year": "2018"
-      },
-      {  
-         "month": "09"
-      }
-   ]
+   }
 }
 ```
 
@@ -649,49 +661,48 @@ echo ($content);
 ```
 {  
    "cpf": "359.177.770-63",
-   "accountingPeriod": "2018-09-30",
+   "accounting_period": "2018-09-30",
    "maturity": "2018-10-31",
    "revenue": "12370.00",
-   "deductibleExpenses": "100.00",
-   "nonDeductibleRevenues": "229.54",
-   "dependentDeduction": "568.77",
-   "calculationBase": "11701.23",
-   "mainValue": "2348.48",
+   "deductible_expenses": "100.00",
+   "non_deductible_revenues": "229.54",
+   "dependent_deduction": "568.77",
+   "calculation_base": "11701.23",
+   "main_value": "2348.48",
    "year": "2018",
    "month": "09",
-   "status": "OK",
-   "error_code": 0,
-   "error_desc": null
+   "status_code": 200,
+   "error": null,
+   "message": null
 }
 ```
 
 ### Parâmetros da Resposta
 
-| Campo                 |  Tipo  | Descrição                     |
-|-----------------------|:------:|-------------------------------|
-| cpf                   | string | CPF do usuário                |
-| accountingPeriod      | string | Período de apuração           |
-| maturity              | string | Vencimento do darf            |
-| revenue               | string | Valor de receitas             |
-| deductibleExpenses    | string | Valor despesas dedutíveis     |
-| nonDeductibleRevenues | string | Valor despesas não dedutíveis |
-| dependentDeduction    | string | Valor dedução dependentes     |
-| calculationBase       | string | Valor base de cálculo         |
-| mainValue             | string | Valor do principal            |
-| year                  | string | Ano                           |
-| month                 | string | Mês                           |
-| status                | string | Status do processamento       |
-| error_code            | string | Código do erro                |
-| error_desc            | string | Descrição do erro             |
+| Campo                   |  Tipo  | Descrição                     |
+|-------------------------|:------:|-------------------------------|
+| cpf                     | string | CPF do usuário                |
+| accounting_period       | string | Período de apuração           |
+| maturity                | string | Vencimento do darf            |
+| revenue                 | string | Valor de receitas             |
+| deductible_expenses     | string | Valor despesas dedutíveis     |
+| non_deductible_revenues | string | Valor despesas não dedutíveis |
+| dependent_deduction     | string | Valor dedução dependentes     |
+| calculation_base        | string | Valor base de cálculo         |
+| main_value              | string | Valor do principal            |
+| year                    | string | Ano                           |
+| month                   | string | Mês                           |
+| status_code             | string | Status do processamento       |
+| error                   | string | Código do erro                |
+| message                 | string | Descrição do erro             |
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc           |
-|-------------------|:----------:|:---------------------|
-| OK                | 0          | null                 |
-| ERROR             | 405        | Prazo expirado       |
-| ERROR             | 6          | Error User Not Found |
-
+| status_code | error      | message                                       |
+|:-----------:|:----------:|:----------------------------------------------|
+| 200         | null       | null                                          |
+| 422         | Un.Entidy  | Expiration date reached                       |
+| 422         | Un.Entidy  | Error fields not found [field_name not found] |
 
 ### Exemplo chamada PHP
 
@@ -700,20 +711,18 @@ echo ($content);
 header('Content-Type: application/json');
 
 $data_string = '{  
-		   "data": {  
+		   "cpf_titular": {  
 		      "cpf": "999.999.999-99"
+		   },
+		   "year": {
+		      "value": "2018"
+		   },
+		   "month": {
+		      "value": "11"
 		   },
 		   "token": {  
 		      "value": ""
-		   },
-		   "date": [  
-		      {  
-			 "year": "2018"
-		      },
-		      {  
-			 "month": "09"
-		      }
-		   ]
+		   }
 		}';
 
 $url = 'https://contify.com.br/api/v1/process/process';
@@ -741,20 +750,18 @@ echo ($content);
 
 ```
 {  
-   "data": {  
-      "cpf": "999.999.999-99"
+   "cpf_titular": {  
+      "value": "999.999.999-99"
+   },
+   "year": {  
+      "value": "2018"
+   },
+   "month": {  
+      "value": "11"
    },
    "token": {  
       "value": ""
-   },
-   "date": [  
-      {  
-         "year": "2018"
-      },
-      {  
-         "month": "09"
-      }
-   ]
+   }
 }
 ```
 
@@ -763,30 +770,30 @@ echo ($content);
 ```
 {  
    "cpf": "359.177.770-63",
-   "accountingPeriod": "2018-09-30",
+   "accounting_period": "2018-09-30",
    "maturity": "2018-10-31",
    "revenue": "12370.00",
-   "deductibleExpenses": "100.00",
-   "nonDeductibleRevenues": "229.54",
-   "dependentDeduction": "568.77",
-   "calculationBase": "11701.23",
-   "mainValue": "2348.48",
+   "deductible_expenses": "100.00",
+   "non_deductible_revenues": "229.54",
+   "dependent_deduction": "568.77",
+   "calculation_base": "11701.23",
+   "main_value": "2348.48",
    "year": "2018",
    "month": "09",
-   "status": "OK",
-   "error_code": 0,
-   "error_desc": null,
-   "cpf_titular": "359.177.770-63"
+   "status_code": 200,
+   "error": null,
+   "message": null
 }
 ```
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc              |
-|-------------------|:----------:|:------------------------|
-| OK                | 0          | null                    |
-| ERROR             | 405        | expiration date reached |
-| ERROR             | 15         | Error DARF not found    |
+| status_code | error      | message                                       |
+|:-----------:|:----------:|:----------------------------------------------|
+| 200         | null       | null                                          |
+| 422         | Un.Entidy  | Expiration date reached                       |
+| 422         | Un.Entidy  | Error DARF not found                          |
+| 422         | Un.Entidy  | Error fields not found [field_name not found] |
 
 ### Exemplo chamada PHP
 
@@ -795,20 +802,18 @@ echo ($content);
 header('Content-Type: application/json');
 
 $data_string = '{  
-		   "data": {  
-		      "cpf": "999.999.999-99"
+		   "cpf_titular": {  
+		      "value": "999.999.999-99"
+		   },
+		   "year": {
+		      "value": "2018"
+		   },
+		   "month": {
+		      "value": "11"
 		   },
 		   "token": {  
 		      "value": ""
-		   },
-		   "date": [  
-		      {  
-			 "year": "2018"
-		      },
-		      {  
-			 "month": "09"
-		      }
-		   ]
+		   }
 		}';
 
 $url = 'https://contify.com.br/api/v1/process/read';
@@ -836,23 +841,21 @@ echo ($content);
 
 ```
 {  
-   "data": {  
-      "cpf": "999.999.999-99"
+   "cpf_titular": {  
+      "value": "999.999.999-99"
    },
-   "token": {  
-      "value": ""
+   "year": {  
+      "value": "2018"
    },
-   "date": [  
-      {  
-         "year": "2018"
-      },
-      {  
-         "initial_month": "09"
-      },
-      {  
-         "final_month": "09"
-      }
-   ]
+   "initial_month": {
+      "value": "11"
+   },
+   "final_month": {
+      "value": "11"
+   },
+   "token": {
+	"value": ""
+   }
 }
 ```
 
@@ -865,9 +868,9 @@ echo ($content);
    "initial_month": "09",
    "final_month": "09",
    "file": "JVBERi0xLjcKJeLjz9MKNyAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZ...",
-   "status": "OK",
-   "error_code": 0,
-   "error_desc": null
+   "status_code": 200,
+   "error": null,
+   "message": null
 }
 ```
 
@@ -886,11 +889,11 @@ echo ($content);
 
 ### Status da Resposta
 
-| status 	    | error_code | error_desc              |
-|-------------------|:----------:|:------------------------|
-| OK                | 0          | null                    |
-| ERROR             | 405        | expiration date reached |
-| ERROR             | 15         | Error User not found    |
+| status_code | error      | message                                       |
+|:-----------:|:----------:|:----------------------------------------------|
+| 200         | null       | null                                          |
+| 422         | Un.Entidy  | Expiration date reached                       |
+| 422         | Un.Entidy  | Error fields not found [field_name not found] |
 
 ### Exemplo chamada PHP
 
@@ -899,23 +902,21 @@ echo ($content);
 header('Content-Type: application/json');
 
 $data_string = '{  
-		   "data": {  
-		      "cpf": "999.999.999-99"
+		   "cpf_titular": {  
+		      "value": "999.999.999-99"
 		   },
-		   "token": {  
+		   "year": {  
+		      "value": "2018"
+		   },
+		   "initial_month": {
+		      "value": "11"
+		   },
+		   "final_month": {
+		      "value": "11"
+		   },
+		   "token": {
 		      "value": ""
-		   },
-		   "date": [  
-		      {  
-			 "year": "2018"
-		      },
-		      {  
-			 "initial_month": "09"
-		      },
-		      {  
-			 "final_month": "09"
-		      }
-		   ]
+		   }
 		}';
 
 $url = 'https://contify.com.br/api/v1/cash-book/read';
