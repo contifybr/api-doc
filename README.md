@@ -570,6 +570,7 @@ echo ($content);
 |:-----------:|:----------:|:----------------------------------------------|
 | 200         | null       | Releases created / updated successfully       |
 | 422         | Un.Entidy  | Expiration date reached                       |
+| 422         | Un.Entidy  | Error invalid date                            |
 | 422         | Un.Entidy  | Date launch incomplatible with base_year      |
 | 422         | Un.Entidy  | Date launch incomplatible with base_month     |
 | 422         | Un.Entidy  | Error fields not found [field_name not found] |
@@ -652,7 +653,7 @@ echo ($content);
       "value": "2018"
    },
    "month": {  
-      "value": "11"
+      "value": "09"
    },
    "token": {  
       "value": ""
@@ -761,7 +762,7 @@ echo ($content);
       "value": "2018"
    },
    "month": {  
-      "value": "11"
+      "value": "09"
    },
    "token": {  
       "value": ""
