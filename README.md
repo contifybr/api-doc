@@ -242,6 +242,7 @@ echo($content);
    "state": "SC",
    "city": "Joinville",
    "district": "",
+   "expiration_date": "",
    "status_code": 200,
    "error": null,
    "message": null
@@ -344,6 +345,7 @@ echo ($content);
 | status_code | error      | message                                       |
 |:-----------:|:----------:|:----------------------------------------------|
 | 200         | null       | Dependents created / updated successfully     |
+| 422         | Un.Entidy  | Expiration date reached                       |
 | 422         | Un.Entidy  | Error fields not found [field_name not found] |
 
 ### Exemplo chamada PHP
