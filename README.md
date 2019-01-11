@@ -55,27 +55,28 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
 
 ### Parâmetros do corpo
 
-| Campo                  |   Tipo  | Obrigatório | Descrição                 |
-|------------------------|:-------:|:-----------:|---------------------------|
-| name                   | string  |      S      | Nome abreviado            |
-| clinical_name          | string  |      N      | Nome da clínica           |
-| has_employee           | boolean |      N      | Tem funcionário(s)        |
-| quantity_employee      | integer |      N      | Quantidade funcionário(s) |
-| full_name              | string  |      S      | Nome completo             |
-| phone                  | string  |      S      | Telefone                  |
-| mail                   | string  |      S      | E-mail                    |
-| cpf                    | string  |      S      | CPF                       |
-| cep                    | string  |      S      | Cep                       |
-| address                | string  |      S      | Endereço                  |
-| number                 | string  |      S      | Número endereço           |
-| complement             | string  |      N      | Complemento               |
-| state                  | string  |      S      | Estado                    |
-| city                   | string  |      S      | Cidade                    |
-| district               | string  |      N      | Bairro                    |
-| expiration_date        | string  |      N      | Data de expiração         |
-| main_occupation        | string  |      S      | Ocupação principal        |
-| professional_record    | string  |      S      | Registro profissional     |
-| uf_professional_record | string  |      S      | UF Registro profissional  |
+| Campo                  |   Tipo  | Obrigatório | Descrição                      |
+|------------------------|:-------:|:-----------:|--------------------------------|
+| name                   | string  |      S      | Nome abreviado                 |
+| clinical_name          | string  |      N      | Nome da clínica                |
+| has_employee           | boolean |      N      | Tem funcionário(s)             |
+| quantity_employee      | integer |      N      | Quantidade funcionário(s)      |
+| full_name              | string  |      S      | Nome completo                  |
+| phone                  | string  |      S      | Telefone                       |
+| mail                   | string  |      S      | E-mail                         |
+| cpf                    | string  |      S      | CPF                            |
+| cep                    | string  |      S      | Cep                            |
+| address                | string  |      S      | Endereço                       |
+| number                 | string  |      S      | Número endereço                |
+| complement             | string  |      N      | Complemento                    |
+| state                  | string  |      S      | Estado                         |
+| city                   | string  |      S      | Cidade                         |
+| district               | string  |      N      | Bairro                         |
+| expiration_date        | string  |      N      | Data de expiração              |
+| main_occupation        | string  |      S      | Ocupação principal             |
+| professional_record    | string  |      S      | Registro profissional          |
+| uf_professional_record | string  |      S      | UF Registro profissional       |
+| accept_terms 		 | string  |      S      | Aceite termos de uso (S = SIM) |
 
 ### Corpo
 
@@ -95,7 +96,8 @@ Afim de garantir a integridade dos dados o processo de integração, deve seguir
       "expiration_date": "2018-02-28",
       "main_occupation": "Cirurgião",
       "professional_record": "999999",
-      "uf_professional_record": "SC"
+      "uf_professional_record": "SC",
+      "accept_terms": "S"
    },
    "token":{  
       "value": ""
